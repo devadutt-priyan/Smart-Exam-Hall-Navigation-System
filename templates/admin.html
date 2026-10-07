@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Scan2Hall Admin</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6f9;
+}
+
+.header{
+    background:white;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo{
+    width:300px;
+}
+
+.admin-container{
+    width:90%;
+    margin:40px auto;
+}
+
+form input{
+    padding:8px;
+    margin:5px;
+}
+
+button{
+    padding:8px 12px;
+    cursor:pointer;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th, td{
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#222;
+    color:white;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    margin-bottom:40px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <img src="/static/logo.png" class="logo">
+    <h2>ADMIN PANEL</h2>
+</div>
+
+<div class="admin-container">
+
+<!-- ================= STUDENTS ================= -->
+
+<div class="section">
+<h3>Manage Students</h3>
+
+<form method="POST">
+    <input type="hidden" name="type" value="student">
+    <input type="hidden" name="action" value="add">
+
+    <input name="regno" placeholder="Reg No" required>
+    <input name="name" placeholder="Name" required>
+    <input name="department" placeholder="Department" required>
+    <input name="semester" placeholder="Semester" required>
+    <input name="seat" placeholder="Seat" required>
+    <input name="room" placeholder="Room" required>
+
+    <button type="submit">Add Student</button>
+</form>
+
+<table>
+<tr>
+    <th>Reg No</th>
+    <th>Name</th>
+    <th>Dept</th>
+    <th>Sem</th>
+    <th>Seat</th>
+    <th>Room</th>
+    <th>Delete</th>
+</tr>
+
+{% for s in students %}
+<tr>
+    <td>{{ s.regno }}</td>
+    <td>{{ s.name }}</td>
+    <td>{{ s.department }}</td>
+    <td>{{ s.semester }}</td>
+    <td>{{ s.seat }}</td>
+    <td>{{ s.room }}</td>
+    <td>
+        <form method="POST">
+            <input type="hidden" name="type" value="student">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="index" value="{{ loop.index0 }}">
+            <button type="submit">X</button>
+        </form>
+    </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+
+<!-- ================= ROOMS ================= -->
+
+<div class="section">
+<h3>Manage Rooms</h3>
+
+<form method="POST">
+    <input type="hidden" name="type" value="room">
+    <input type="hidden" name="action" value="add">
+
+    <input name="room" placeholder="Room No" required>
+    <input name="building" placeholder="Building" required>
+    <input name="floor" placeholder="Floor" required>
+
+    <button type="submit">Add Room</button>
+</form>
+
+<table>
+<tr>
+    <th>Room</th>
+    <th>Building</th>
+    <th>Floor</th>
+    <th>Delete</th>
+</tr>
+
+{% for r in rooms %}
+<tr>
+    <td>{{ r.room }}</td>
+    <td>{{ r.building }}</td>
+    <td>{{ r.floor }}</td>
+    <td>
+        <form method="POST">
+            <input type="hidden" name="type" value="room">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="index" value="{{ loop.index0 }}">
+            <button type="submit">X</button>
+        </form>
+    </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<a href="/">⬅ Back to Scan Page</a>
+
+</div>
+</body>
+</html>

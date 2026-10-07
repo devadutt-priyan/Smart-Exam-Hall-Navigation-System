@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background-image:url("{{ url_for('static', filename='bg.jpg') }}");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    font-family:Arial,sans-serif;
+}
+
+
+</style>
+<title>Scan2Hall</title>
+<link rel="stylesheet" href="/static/style.css">
+<script>
+function updateTime(){
+ const n=new Date();
+ document.getElementById('dt').innerHTML=
+ n.toLocaleDateString()+" "+n.toLocaleTimeString();
+}
+setInterval(updateTime,1000);
+</script>
+</head>
+
+<body onload="updateTime()">
+
+<div class="header">
+    <img src="/static/logo.png" class="logo">
+    <div id="dt" style="position:fixed;top:12px;right:16px;font-weight:600;"></div>
+<a href="/admin" class="admin-btn">Admin</a>
+</div>
+
+<div class="container" id="welcomeBox">
+    <h1>WELCOME</h1>
+    <h3>PLEASE SCAN YOUR BARCODE</h3>
+
+    <form method="POST">
+        <input type="text" name="regno" autofocus>
+    </form>
+
+    {% if error %}
+    <p style="color:red;font-weight:bold;">{{ error }}</p>
+    {% endif %}
+</div>
+
+<div class="result-layout" id="resultSection">
+
+    <!-- MAP -->
+    <div class="map-box">
+        <object type="image/svg+xml"
+                data="{{ url_for('static', filename='FloorMap.svg') }}"
+                class="floor-map"
+                id="floorSvg">
+        </object>
+    </div>
+
+    <!-- DETAILS -->
+    {% if student and room %}
+    <div class="details-box">
+        <h2>Student Details</h2>
+
+        <p><b>Name:</b> {{ student.name }}</p>
+        <p><b>Reg No:</b> {{ student.regno }}</p>
+        <p><b>Department:</b> {{ student.department }}</p>
+        <p><b>Semester:</b> {{ student.semester }}</p>
+        <p><b>Seat:</b> {{ student.seat }}</p>
+        <hr>
+        <h2>Room Details</h2>
+        <p><b>Room:</b> {{ student.room }}</p>
+        <p><b>Building:</b> {{ room.building }}</p>
+        <p><b>Floor:</b> {{ room.floor }}</p>
+    </div>
+    {% endif %}
+
+</div>
+
+{% if student %}
+<script>
+const welcome = document.getElementById("welcomeBox");
+const result = document.getElementById("resultSection");
+const svg = document.getElementById("floorSvg");
+
+setTimeout(function(){
+
+    welcome.style.display = "none";
+    result.style.display = "flex";
+
+    svg.addEventListener("load", function(){
+        const doc = svg.contentDocument;
+        const roomId = "{{ student.room }}";
+        const room = doc.getElementById(roomId);
+
+        if(room){
+            room.style.fill = "red";
+	    room.style.opacity = "0.5";
+
+	    setInterval(function(){
+    	    room.style.opacity = (room.style.opacity == "0.5") ? "0.2" : "0.5";
+    	    }, 500);
+        }
+
+    });
+
+},500);
+
+
+/* return after 15 sec */
+setTimeout(function(){
+    window.location.href = "/";
+}, 15000);
+</script>
+{% elif error %}
+<script>
+setTimeout(function(){
+    window.location.href="/";
+},5000);
+</script>
+{% endif %}
+
+</body>
+</html>

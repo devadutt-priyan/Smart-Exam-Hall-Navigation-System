@@ -144,17 +144,17 @@ Some possible improvements are:
 
 ---
 
-👥 Project Team
+## 👥 Project Team
 
 This project was developed as a team academic mini project.
 
-Devadutt Priyan
-Kiran Alias Shaji
-Harisankar S
-Julia Sara Korah
+* **Devadutt Priyan**
+* **Kiran Alias Shaji**
+* **Harisankar S**
+* **Julia Sara Korah**
 
-B.Tech Electronics and Communication Engineering
-Muthoot Institute of Technology & Science, Kerala
+**B.Tech Electronics and Communication Engineering**
+**Muthoot Institute of Technology & Science, Kerala**
 
 ---
 
